@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Vunderkinder Streams</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 10px;
             background-color: #111;
             color: #eee;
+            text-align: center;
+            padding: 10px;
+            transition: background-color 0.3s, color 0.3s;
         }
         .header {
             font-size: 28px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
-        .channel-icons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+        .categories button, .streamers img, .movies button {
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
         }
-        .channel-icons img {
+        .categories button, .movies button {
+            padding: 8px 12px;
+            background-color: #9147ff;
+            color: #fff;
+        }
+        .categories button:hover, .movies button:hover {
+            background-color: #772ce8;
+        }
+        .streamers img {
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            cursor: pointer;
             border: 2px solid #9147ff;
             transition: transform 0.2s, border-color 0.2s;
         }
-        .channel-icons img:hover {
+        .streamers img:hover {
             transform: scale(1.1);
             border-color: #772ce8;
         }
@@ -41,25 +48,12 @@
             margin: 10px;
             max-width: 100%;
         }
-        input {
-            padding: 8px;
-            width: 200px;
-            border-radius: 5px;
-            border: 1px solid #555;
-            background-color: #222;
-            color: #eee;
-        }
-        button {
-            padding: 8px 12px;
-            margin: 5px;
+        .toggle-theme {
+            margin-top: 20px;
             cursor: pointer;
-            background-color: #9147ff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
         }
-        button:hover {
-            background-color: #772ce8;
+        #youtubePlayer {
+            display: none;
         }
         #offlineOverlay {
             display: none;
@@ -79,12 +73,12 @@
             iframe, #offlineOverlay {
                 height: 240px;
             }
-            .channel-icons img {
-                width: 48px;
-                height: 48px;
-            }
             .header {
                 font-size: 22px;
+            }
+            .streamers img {
+                width: 48px;
+                height: 48px;
             }
         }
     </style>
@@ -94,75 +88,97 @@
     <!-- Шапка -->
     <div class="header">🎮 Vunderkinder Streams</div>
 
-    <!-- Иконки каналов -->
-    <div class="channel-icons">
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-5496b9c74b4b4023-300x300.png" 
-             onclick="changeChannel('monstercat')" title="Monstercat" />
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/5a9cc7ba-72f3-41f1-8b06-bc31312e6ec2-profile_image-300x300.png" 
-             onclick="changeChannel('esl_csgo')" title="ESL_CSGO" />
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08e7580f4e01b7d8-300x300.png" 
-             onclick="changeChannel('shroud')" title="Shroud" />
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" 
-             onclick="changeChannel('vunderkinder')" title="Vunderkinder" />
+    <!-- Категории -->
+    <div class="categories">
+        <button onclick="showCategory('games')">🎮 Игры</button>
+        <button onclick="showCategory('music')">🎵 Музыка</button>
+        <button onclick="showCategory('chat')">🗣 Чат</button>
+        <button onclick="showCategory('sports')">⚽️ Спорт</button>
+        <button onclick="showCategory('movies')">🎬 Фильмы</button>
+    </div>
+
+    <!-- Топ стримеры -->
+    <p>ТОП стримеры:</p>
+    <div class="streamers">
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08e7580f4e01b7d8-300x300.png" onclick="changeChannel('shroud')" title="Shroud" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-5496b9c74b4b4023-300x300.png" onclick="changeChannel('monstercat')" title="Monstercat" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/5a9cc7ba-72f3-41f1-8b06-bc31312e6ec2-profile_image-300x300.png" onclick="changeChannel('esl_csgo')" title="ESL_CSGO" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" onclick="changeChannel('vunderkinder')" title="Vunderkinder" />
+    </div>
+
+    <!-- Категория "Фильмы" (по умолчанию скрыта, показывается при выборе) -->
+    <div id="moviesCategory" class="movies" style="display: none;">
+        <p>Фильмы:</p>
+        <button onclick="changeChannel('cineplex')">🎬 Cineplex</button>
+        <button onclick="changeChannel('retromovievault')">🎬 Retro Movies</button>
+        <button onclick="showYoutube('https://www.youtube.com/embed/ue80QwXMRHg')">🎥 YouTube трейлер</button>
     </div>
 
     <!-- Название текущего канала -->
-    <p>Канал: <strong id="channelName">vunderkinder</strong></p>
+    <p>Канал: <strong id="channelName">shroud</strong></p>
 
     <!-- Заглушка оффлайн -->
-    <div id="offlineOverlay">
-        🚫 Стример сейчас оффлайн. Заходите позже!
-    </div>
+    <div id="offlineOverlay">🚫 Стример сейчас оффлайн. Заходите позже!</div>
 
-    <!-- Twitch Video Player -->
-    <iframe
-        id="twitchPlayer"
-        src="https://player.twitch.tv/?channel=vunderkinder&parent=vunderkinder.github.io"
-        height="480"
-        width="720"
-        allowfullscreen>
-    </iframe>
+    <!-- Twitch Player -->
+    <iframe id="twitchPlayer" src="https://player.twitch.tv/?channel=shroud&parent=twitch-viewer.ru" height="480" width="720" allowfullscreen></iframe>
+
+    <!-- YouTube Player -->
+    <iframe id="youtubePlayer" height="480" width="720" allowfullscreen></iframe>
 
     <!-- Twitch Chat -->
-    <iframe
-        id="twitchChat"
-        src="https://www.twitch.tv/embed/vunderkinder/chat?parent=vunderkinder.github.io"
-        height="500"
-        width="350">
-    </iframe>
+    <iframe id="twitchChat" src="https://www.twitch.tv/embed/shroud/chat?parent=twitch-viewer.ru" height="500" width="350"></iframe>
 
-    <!-- Change channel form -->
-    <div style="margin-top: 20px;">
-        <input type="text" id="newChannel" placeholder="Введите имя канала">
-        <button onclick="onChangeButtonClick()">Сменить канал</button>
+    <!-- Поддержать проект -->
+    <div style="margin: 20px 0;">
+        <a href="https://www.donationalerts.com/r/vunderkinder" target="_blank">
+            <button>💰 Поддержать проект</button>
+        </a>
     </div>
 
+    <!-- Блок для РСЯ -->
+    <div style="margin: 20px 0;">
+        <p>Реклама:</p>
+        <div id="yandex_rtb_placeholder">[ Сюда вставить код РСЯ когда будет готов ]</div>
+    </div>
+
+    <!-- Переключение темы -->
+    <div class="toggle-theme">
+        <button onclick="toggleTheme()">🌙 / ☀️ Переключить тему</button>
+    </div>
+
+    <!-- JS -->
     <script>
         function changeChannel(channel) {
             document.getElementById('channelName').innerText = channel;
-            const parentDomain = 'vunderkinder.github.io';
-            document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}`;
-            document.getElementById('twitchChat').src = `https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}`;
+            document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=twitch-viewer.ru`;
+            document.getElementById('twitchChat').src = `https://www.twitch.tv/embed/${channel}/chat?parent=twitch-viewer.ru`;
+            document.getElementById('twitchPlayer').style.display = '';
+            document.getElementById('youtubePlayer').style.display = 'none';
             showOfflineOverlay(false);
             checkOffline(channel);
         }
 
-        function getChannelFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('channel') || 'vunderkinder';
+        function showYoutube(url) {
+            document.getElementById('youtubePlayer').src = url;
+            document.getElementById('youtubePlayer').style.display = '';
+            document.getElementById('twitchPlayer').style.display = 'none';
+            document.getElementById('twitchChat').src = '';
+            document.getElementById('channelName').innerText = 'YouTube';
         }
 
-        window.onload = function() {
-            const channel = getChannelFromUrl();
-            changeChannel(channel);
+        function showCategory(category) {
+            document.getElementById('moviesCategory').style.display = (category === 'movies') ? '' : 'none';
         }
 
-        function onChangeButtonClick() {
-            const channel = document.getElementById('newChannel').value.trim();
-            if (channel) {
-                changeChannel(channel);
-                const newUrl = `${window.location.pathname}?channel=${channel}`;
-                window.history.pushState({}, '', newUrl);
+        function toggleTheme() {
+            const body = document.body;
+            if (body.style.backgroundColor === 'white') {
+                body.style.backgroundColor = '#111';
+                body.style.color = '#eee';
+            } else {
+                body.style.backgroundColor = 'white';
+                body.style.color = 'black';
             }
         }
 
@@ -179,7 +195,12 @@
                 }
             }, 5000);
         }
+
+        window.onload = function() {
+            changeChannel('shroud');
+        }
     </script>
 
 </body>
 </html>
+
