@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Стрим Twitch</title>
+    <title>Стрим Twitch — vunderkinder</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,14 +40,23 @@
 </head>
 <body>
 
-    <h1>🎮 Смотрим Twitch стрим</h1>
+    <h1>🎮 Стрим Twitch: vunderkinder</h1>
 
-    <p>Канал: <strong id="channelName">monstercat</strong></p>
+    <!-- Популярные каналы -->
+    <div style="margin-bottom: 20px;">
+        <p>Популярные каналы:</p>
+        <button onclick="changeChannel('vunderkinder')">vunderkinder 🚀</button>
+        <button onclick="changeChannel('esl_csgo')">blastpremier</button>
+        <button onclick="changeChannel('shroud')">🎮</button>
+    </div>
+
+    <!-- Название текущего канала -->
+    <p>Канал: <strong id="channelName">vunderkinder</strong></p>
 
     <!-- Twitch Video Player -->
     <iframe
         id="twitchPlayer"
-        src="https://player.twitch.tv/?channel=monstercat&parent=vunderkinder.github.io"
+        src="https://player.twitch.tv/?channel=vunderkinder&parent=vunderkinder.github.io"
         height="480"
         width="720"
         allowfullscreen>
@@ -56,7 +65,7 @@
     <!-- Twitch Chat -->
     <iframe
         id="twitchChat"
-        src="https://www.twitch.tv/embed/monstercat/chat?parent=vunderkinder.github.io"
+        src="https://www.twitch.tv/embed/vunderkinder/chat?parent=vunderkinder.github.io"
         height="500"
         width="350">
     </iframe>
@@ -78,7 +87,7 @@
         // Получаем параметр "channel" из URL
         function getChannelFromUrl() {
             const params = new URLSearchParams(window.location.search);
-            return params.get('channel') || 'monstercat';  // по умолчанию monstercat
+            return params.get('channel') || 'vunderkinder';  // по умолчанию vunderkinder
         }
 
         // При загрузке страницы — установить канал из URL
@@ -98,6 +107,9 @@
             }
         }
     </script>
+
+</body>
+</html>
 
 </body>
 </html>
