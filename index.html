@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vunderkinder Streams</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="header">🎮 Vunderkinder Streams</div>
+
+    <div class="categories">
+        <button onclick="showCategory('games')">🎮 Игры</button>
+        <button onclick="showCategory('music')">🎵 Музыка</button>
+        <button onclick="showCategory('chat')">🗣 Чат</button>
+        <button onclick="showCategory('sports')">⚽️ Спорт</button>
+        <button onclick="showCategory('movies')">🎬 Фильмы</button>
+    </div>
+
+    <p>ТОП стримеры:</p>
+    <div class="streamers">
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08e7580f4e01b7d8-300x300.png" onclick="changeTwitchChannel('shroud')" title="Shroud" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-5496b9c74b4b4023-300x300.png" onclick="changeTwitchChannel('monstercat')" title="Monstercat" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/5a9cc7ba-72f3-41f1-8b06-bc31312e6ec2-profile_image-300x300.png" onclick="changeTwitchChannel('esl_csgo')" title="ESL_CSGO" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" onclick="changeTwitchChannel('vunderkinder')" title="Vunderkinder" />
+    </div>
+
+    <div id="moviesCategory" class="movies" style="display: none;">
+        <p>Фильмы:</p>
+        <button onclick="changeTwitchChannel('cineplex')">🎬 Cineplex</button>
+        <button onclick="changeTwitchChannel('retromovievault')">🎬 Retro Movies</button>
+        <button onclick="showYoutube('https://www.youtube.com/embed/ue80QwXMRHg')">🎥 YouTube трейлер</button>
+    </div>
+
+    <p>Канал: <strong id="channelName">shroud</strong></p>
+
+    <iframe id="twitchPlayer" src="https://twitch-proxy.streamdev.xyz/player.html?channel=shroud" height="480" width="720" allowfullscreen></iframe>
+
+    <iframe id="youtubePlayer" height="480" width="720" allowfullscreen style="display:none;"></iframe>
+
+    <div style="margin: 20px 0;">
+        <a href="https://www.donationalerts.com/r/vunderkinder" target="_blank">
+            <button>💰 Поддержать проект</button>
+        </a>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <p>Реклама:</p>
+        <div id="yandex_rtb_placeholder">[ Сюда вставить код РСЯ когда будет готов ]</div>
+    </div>
+
+    <div class="toggle-theme">
+        <button onclick="toggleTheme()">🌙 / ☀️ Переключить тему</button>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
