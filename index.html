@@ -8,13 +8,14 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 10px;
             background-color: #111;
             color: #eee;
         }
         iframe {
             border: none;
             margin: 10px;
+            max-width: 100%;
         }
         input {
             padding: 8px;
@@ -26,7 +27,7 @@
         }
         button {
             padding: 8px 12px;
-            margin-left: 10px;
+            margin: 5px;
             cursor: pointer;
             background-color: #9147ff;
             color: #fff;
@@ -35,6 +36,25 @@
         }
         button:hover {
             background-color: #772ce8;
+        }
+        #offlineOverlay {
+            display: none;
+            height: 480px;
+            max-width: 100%;
+            background: url('https://static-cdn.jtvnw.net/assets/about-glitch-5f8e4a43e589ea54e35f.png') center center no-repeat;
+            background-size: cover;
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px #000;
+            margin: 10px auto;
+        }
+        @media (max-width: 768px) {
+            iframe, #offlineOverlay {
+                height: 240px;
+            }
         }
     </style>
 </head>
@@ -45,13 +65,18 @@
     <!-- Популярные каналы -->
     <div style="margin-bottom: 20px;">
         <p>Популярные каналы:</p>
-        <button onclick="changeChannel('esl_csgo')">blastpremier</button>
         <button onclick="changeChannel('vunderkinder')">vunderkinder 🚀</button>
-        <button onclick="changeChannel('shroud')">🎮</button>
+        <button onclick="changeChannel('esl_csgo')">CS:GO 🕹</button>
+        <button onclick="changeChannel('shroud')">Shroud 🎮</button>
     </div>
 
     <!-- Название текущего канала -->
     <p>Канал: <strong id="channelName">vunderkinder</strong></p>
+
+    <!-- Заглушка оффлайн -->
+    <div id="offlineOverlay">
+        🚫 Стример сейчас оффлайн. Заходите позже!
+    </div>
 
     <!-- Twitch Video Player -->
     <iframe
@@ -82,12 +107,14 @@
             const parentDomain = 'vunderkinder.github.io';
             document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}`;
             document.getElementById('twitchChat').src = `https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}`;
+            showOfflineOverlay(false);
+            checkOffline(channel);
         }
 
         // Получаем параметр "channel" из URL
         function getChannelFromUrl() {
             const params = new URLSearchParams(window.location.search);
-            return params.get('channel') || 'vunderkinder';  // по умолчанию vunderkinder
+            return params.get('channel') || 'vunderkinder';
         }
 
         // При загрузке страницы — установить канал из URL
@@ -106,10 +133,25 @@
                 window.history.pushState({}, '', newUrl);
             }
         }
+
+        // Показать / скрыть заглушку
+        function showOfflineOverlay(show) {
+            document.getElementById('offlineOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        // "Проверка оффлайн" — таймер 5 секунд
+        function checkOffline(channel) {
+            showOfflineOverlay(false);
+            setTimeout(() => {
+                const playerFrame = document.getElementById('twitchPlayer');
+                // Проверяем: если iframe пустой или не загружен (обычно при оффлайне)
+                if (!playerFrame.contentWindow || playerFrame.contentDocument?.body?.innerHTML.trim() === '') {
+                    showOfflineOverlay(true);
+                }
+            }, 5000);
+        }
     </script>
 
 </body>
 </html>
 
-</body>
-</html>
