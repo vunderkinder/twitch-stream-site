@@ -1,0 +1,44 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #eee;
+    text-align: center;
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.header {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.categories button, .streamers img, .movies button {
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+.categories button, .movies button {
+    padding: 8px 12px;
+    background-color: #9147ff;
+    color: #fff;
+}
+.categories button:hover, .movies button:hover {
+    background-color: #772ce8;
+}
+.streamers img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid #9147ff;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.streamers img:hover {
+    transform: scale(1.1);
+    border-color: #772ce8;
+}
+iframe {
+    border: none;
+    margin: 10px;
+    max-width: 100%;
+}
