@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Стрим Twitch </title>
+    <title>Стрим Twitch</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #111;
+            color: #eee;
         }
         iframe {
             border: none;
@@ -18,17 +19,28 @@
         input {
             padding: 8px;
             width: 200px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #222;
+            color: #eee;
         }
         button {
             padding: 8px 12px;
             margin-left: 10px;
             cursor: pointer;
+            background-color: #9147ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #772ce8;
         }
     </style>
 </head>
 <body>
 
-    <h1>Смотрим Twitch стрим</h1>
+    <h1>🎮 Смотрим Twitch стрим</h1>
 
     <p>Канал: <strong id="channelName">monstercat</strong></p>
 
@@ -52,17 +64,37 @@
     <!-- Change channel form -->
     <div style="margin-top: 20px;">
         <input type="text" id="newChannel" placeholder="Введите имя канала">
-        <button onclick="changeChannel()">Сменить канал</button>
+        <button onclick="onChangeButtonClick()">Сменить канал</button>
     </div>
 
     <script>
-        function changeChannel() {
+        function changeChannel(channel) {
+            document.getElementById('channelName').innerText = channel;
+            const parentDomain = 'vunderkinder.github.io';
+            document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}`;
+            document.getElementById('twitchChat').src = `https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}`;
+        }
+
+        // Получаем параметр "channel" из URL
+        function getChannelFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('channel') || 'monstercat';  // по умолчанию monstercat
+        }
+
+        // При загрузке страницы — установить канал из URL
+        window.onload = function() {
+            const channel = getChannelFromUrl();
+            changeChannel(channel);
+        }
+
+        // Для кнопки "Сменить канал"
+        function onChangeButtonClick() {
             const channel = document.getElementById('newChannel').value.trim();
             if (channel) {
-                document.getElementById('channelName').innerText = channel;
-                const parentDomain = 'vunderkinder.github.io';
-                document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}`;
-                document.getElementById('twitchChat').src = `https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}`;
+                changeChannel(channel);
+                // Обновляем URL (без перезагрузки страницы)
+                const newUrl = `${window.location.pathname}?channel=${channel}`;
+                window.history.pushState({}, '', newUrl);
             }
         }
     </script>
