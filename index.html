@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Стрим Twitch — vunderkinder</title>
+    <title>Vunderkinder Streams</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,6 +11,30 @@
             padding: 10px;
             background-color: #111;
             color: #eee;
+        }
+        .header {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .channel-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .channel-icons img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #9147ff;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .channel-icons img:hover {
+            transform: scale(1.1);
+            border-color: #772ce8;
         }
         iframe {
             border: none;
@@ -55,19 +79,31 @@
             iframe, #offlineOverlay {
                 height: 240px;
             }
+            .channel-icons img {
+                width: 48px;
+                height: 48px;
+            }
+            .header {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>🎮 Стрим Twitch: vunderkinder</h1>
+    <!-- Шапка -->
+    <div class="header">🎮 Vunderkinder Streams</div>
 
-    <!-- Популярные каналы -->
-    <div style="margin-bottom: 20px;">
-        <p>Популярные каналы:</p>
-        <button onclick="changeChannel('vunderkinder')">vunderkinder 🚀</button>
-        <button onclick="changeChannel('esl_csgo')">CS:GO 🕹</button>
-        <button onclick="changeChannel('shroud')">Shroud 🎮</button>
+    <!-- Иконки каналов -->
+    <div class="channel-icons">
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-5496b9c74b4b4023-300x300.png" 
+             onclick="changeChannel('monstercat')" title="Monstercat" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/5a9cc7ba-72f3-41f1-8b06-bc31312e6ec2-profile_image-300x300.png" 
+             onclick="changeChannel('esl_csgo')" title="ESL_CSGO" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08e7580f4e01b7d8-300x300.png" 
+             onclick="changeChannel('shroud')" title="Shroud" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" 
+             onclick="changeChannel('vunderkinder')" title="Vunderkinder" />
     </div>
 
     <!-- Название текущего канала -->
@@ -111,40 +147,33 @@
             checkOffline(channel);
         }
 
-        // Получаем параметр "channel" из URL
         function getChannelFromUrl() {
             const params = new URLSearchParams(window.location.search);
             return params.get('channel') || 'vunderkinder';
         }
 
-        // При загрузке страницы — установить канал из URL
         window.onload = function() {
             const channel = getChannelFromUrl();
             changeChannel(channel);
         }
 
-        // Для кнопки "Сменить канал"
         function onChangeButtonClick() {
             const channel = document.getElementById('newChannel').value.trim();
             if (channel) {
                 changeChannel(channel);
-                // Обновляем URL (без перезагрузки страницы)
                 const newUrl = `${window.location.pathname}?channel=${channel}`;
                 window.history.pushState({}, '', newUrl);
             }
         }
 
-        // Показать / скрыть заглушку
         function showOfflineOverlay(show) {
             document.getElementById('offlineOverlay').style.display = show ? 'flex' : 'none';
         }
 
-        // "Проверка оффлайн" — таймер 5 секунд
         function checkOffline(channel) {
             showOfflineOverlay(false);
             setTimeout(() => {
                 const playerFrame = document.getElementById('twitchPlayer');
-                // Проверяем: если iframe пустой или не загружен (обычно при оффлайне)
                 if (!playerFrame.contentWindow || playerFrame.contentDocument?.body?.innerHTML.trim() === '') {
                     showOfflineOverlay(true);
                 }
@@ -154,4 +183,3 @@
 
 </body>
 </html>
-
