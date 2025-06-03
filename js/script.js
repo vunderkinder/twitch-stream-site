@@ -1,4 +1,3 @@
-
 function changeTwitchChannel(channel) {
     document.getElementById('channelName').innerText = channel;
     document.getElementById('twitchPlayer').src = `https://twitchproxy.vercel.app/player.html?channel=${channel}`;
