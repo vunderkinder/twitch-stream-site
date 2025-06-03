@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стрим Twitch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        iframe {
+            border: none;
+            margin: 10px;
+        }
+        input {
+            padding: 8px;
+            width: 200px;
+        }
+        button {
+            padding: 8px 12px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Смотрим Twitch стрим</h1>
+
+    <p>Канал: <strong id="channelName">monstercat</strong></p>
+
+    <!-- Twitch Video Player -->
+    <iframe
+        id="twitchPlayer"
+        src="https://player.twitch.tv/?channel=monstercat&parent=vunderkinder.github.io"
+        height="480"
+        width="720"
+        allowfullscreen>
+    </iframe>
+
+    <!-- Twitch Chat -->
+    <iframe
+        id="twitchChat"
+        src="https://www.twitch.tv/embed/monstercat/chat?parent=vunderkinder.github.io"
+        height="500"
+        width="350">
+    </iframe>
+
+    <!-- Change channel form -->
+    <div style="margin-top: 20px;">
+        <input type="text" id="newChannel" placeholder="Введите имя канала">
+        <button onclick="changeChannel()">Сменить канал</button>
+    </div>
+
+    <script>
+        function changeChannel() {
+            const channel = document.getElementById('newChannel').value.trim();
+            if (channel) {
+                document.getElementById('channelName').innerText = channel;
+                const parentDomain = 'vunderkinder.github.io';
+                document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=${parentDomain}`;
+                document.getElementById('twitchChat').src = `https://www.twitch.tv/embed/${channel}/chat?parent=${parentDomain}`;
+            }
+        }
+    </script>
+
+</body>
+</html>
