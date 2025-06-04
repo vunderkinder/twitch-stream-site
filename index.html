@@ -28,7 +28,6 @@
         <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" onclick="changeTwitchChannel('vunderkinder')" title="Vunderkinder" />
     </div>
 
-    <!-- ВОТ ЭТО НОВЫЙ БЛОК! -->
     <p>Канал: <span id="channelName">не выбран</span></p>
 
     <!-- Twitch iframe player -->
@@ -43,7 +42,17 @@
     ></iframe>
 
     <!-- Offline message -->
-    <p id="offlineMessage" style="display:none; color: red; font-weight: bold;"></p>
+    <p id="offlineMessage" style="display:none; color: red; font-weight: bold; font-size: 18px; text-align: center; margin-top: 10px;"></p>
+
+    <!-- YouTube player -->
+    <iframe
+        id="youtubePlayer"
+        width="100%"
+        height="500"
+        frameborder="0"
+        allowfullscreen="true"
+        style="display:none;"
+    ></iframe>
 
     <!-- Фильмы -->
     <div id="moviesCategory" style="display: none;">
@@ -53,7 +62,20 @@
         <button onclick="showYoutube('https://www.youtube.com/embed/ue80QwXMRHg')">Трейлер YouTube</button>
     </div>
 
-    <div style="margin-top: 20px;">
+    <!-- Поддержать проект -->
+    <div style="margin-top: 20px; text-align: center;">
+        💰 <button onclick="alert('Спасибо за поддержку!')">Поддержать проект</button>
+    </div>
+
+    <!-- Реклама -->
+    <div style="margin-top: 10px; text-align: center;">
+        Реклама:
+        <br />
+        [ Сюда вставить код РСЯ когда будет готов ]
+    </div>
+
+    <!-- Переключатель темы -->
+    <div style="margin-top: 20px; text-align: center;">
         🌟 <button onclick="toggleTheme()">Переключить тему</button>
     </div>
 
