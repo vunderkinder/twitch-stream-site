@@ -1,5 +1,15 @@
-const clientId = 'mhksczpxroty6pz3gyr9tzzdd4xmj'; // твой Client ID
-const accessToken = '95w3cyjevas8n56w6lt44vk5ctt2r7'; // твой Access Token (новый вставь сюда)
+const clientId = 'mkhsczpxroty6pz3gyr9tzzdd4xmj';
+
+// Пытаемся взять Access Token из URL (после авторизации)
+const urlHash = window.location.hash;
+const params = new URLSearchParams(urlHash.substring(1));
+let accessToken = params.get('access_token');
+
+if (accessToken) {
+    console.log('✅ Получен новый Access Token:', accessToken);
+} else {
+    console.log('⚠️ Access Token не найден в URL. Требуется авторизация.');
+}
 
 function changeTwitchChannel(channel) {
     document.getElementById('channelName').innerText = channel;
@@ -7,12 +17,17 @@ function changeTwitchChannel(channel) {
     document.getElementById('twitchPlayer').style.display = 'block';
     document.getElementById('youtubePlayer').style.display = 'none';
 
-    // Очистим старое сообщение
     const offlineMessage = document.getElementById('offlineMessage');
     offlineMessage.style.display = 'none';
     offlineMessage.innerText = '';
 
-    // --- Debug: запрос в Twitch API ---
+    if (!accessToken) {
+        console.error('❌ Нет Access Token. Пожалуйста, авторизуйтесь.');
+        offlineMessage.style.display = 'block';
+        offlineMessage.innerText = 'Ошибка: не авторизован в Twitch.';
+        return;
+    }
+
     console.log(`Запрос в Twitch API для канала: ${channel}`);
 
     fetch(`https://api.twitch.tv/helix/streams?user_login=${channel}`, {
