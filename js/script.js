@@ -1,6 +1,6 @@
 function changeTwitchChannel(channel) {
     document.getElementById('channelName').innerText = channel;
-    document.getElementById('twitchPlayer').src = `https://twitchproxy.vercel.app/player.html?channel=${channel}`;
+    document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=twitch-viewer.ru`;
     document.getElementById('twitchPlayer').style.display = 'block';
     document.getElementById('youtubePlayer').style.display = 'none';
 }
