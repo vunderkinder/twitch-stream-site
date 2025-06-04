@@ -83,5 +83,15 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script>
+    window.onload = function() {
+        const hash = window.location.hash;
+        if (hash && hash.includes('access_token=')) {
+            const token = hash.split('access_token=')[1].split('&')[0];
+            console.log('ВАШ ACCESS TOKEN:', token);
+            alert('ВАШ ACCESS TOKEN: ' + token);
+        }
+    };
+</script>
 </body>
 </html>
