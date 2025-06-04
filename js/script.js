@@ -5,6 +5,9 @@ function changeTwitchChannel(channel) {
     document.getElementById('youtubePlayer').style.display = 'none';
     document.getElementById('offlineMessage').innerText = `Канал ${channel} сейчас оффлайн.`;
     document.getElementById('offlineMessage').style.display = 'block';
+
+    // Убираем категорию "Фильмы"
+    document.getElementById('moviesCategory').style.display = 'none';
 }
 
 function showYoutube(url) {
@@ -16,7 +19,15 @@ function showYoutube(url) {
 }
 
 function showCategory(category) {
-    document.getElementById('moviesCategory').style.display = (category === 'movies') ? 'block' : 'none';
+    if (category === 'movies') {
+        document.getElementById('moviesCategory').style.display = 'block';
+        document.getElementById('twitchPlayer').style.display = 'none';
+        document.getElementById('youtubePlayer').style.display = 'none';
+        document.getElementById('offlineMessage').style.display = 'none';
+        document.getElementById('channelName').innerText = 'Фильмы';
+    } else {
+        document.getElementById('moviesCategory').style.display = 'none';
+    }
 }
 
 function toggleTheme() {
