@@ -1,15 +1,5 @@
 const clientId = 'mkhsczpxroty6pz3gyr9tzzdd4xmj';
-
-// Пытаемся взять Access Token из URL (после авторизации)
-const urlHash = window.location.hash;
-const params = new URLSearchParams(urlHash.substring(1));
-let accessToken = params.get('access_token');
-
-if (accessToken) {
-    console.log('✅ Получен новый Access Token:', accessToken);
-} else {
-    console.log('⚠️ Access Token не найден в URL. Требуется авторизация.');
-}
+const accessToken = 'ТВОЙ_ACCESS_TOKEN_СЮДА'; // вставь сюда рабочий токен
 
 function changeTwitchChannel(channel) {
     document.getElementById('channelName').innerText = channel;
@@ -20,13 +10,6 @@ function changeTwitchChannel(channel) {
     const offlineMessage = document.getElementById('offlineMessage');
     offlineMessage.style.display = 'none';
     offlineMessage.innerText = '';
-
-    if (!accessToken) {
-        console.error('❌ Нет Access Token. Пожалуйста, авторизуйтесь.');
-        offlineMessage.style.display = 'block';
-        offlineMessage.innerText = 'Ошибка: не авторизован в Twitch.';
-        return;
-    }
 
     console.log(`Запрос в Twitch API для канала: ${channel}`);
 
