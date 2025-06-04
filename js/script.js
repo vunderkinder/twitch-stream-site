@@ -1,5 +1,5 @@
 const clientId = 'mhksczpxroty6pz3gyr9tzzdd4xmj'; // твой Client ID
-const accessToken = '5oxb7sgmi275e83cti11z5nhyu62w7'; // твой Access Token (новый вставь сюда)
+const accessToken = '95w3cyjevas8n56w6lt44vk5ctt2r7'; // твой Access Token (новый вставь сюда)
 
 function changeTwitchChannel(channel) {
     document.getElementById('channelName').innerText = channel;
