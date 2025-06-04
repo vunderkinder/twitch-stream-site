@@ -1,38 +1,62 @@
-// === Конфигурация Twitch API ===
-const clientId = 'mhksczpxroty6pz3gyr9tzzdd4xmj';
-const accessToken = 'oyhh130skgyzxqxvxwv1d2pr1cricz';
+const clientId = 'mhksczpxroty6pz3gyr9tzzdd4xmj'; // твой Client ID
+const accessToken = 'oyhh130skgyzxqxvxwv1d2pr1cricz'; // твой Access Token (новый вставь сюда)
 
-// === Смена Twitch канала ===
 function changeTwitchChannel(channel) {
     document.getElementById('channelName').innerText = channel;
-
-    const twitchPlayer = document.getElementById('twitchPlayer');
-    twitchPlayer.src = `https://player.twitch.tv/?channel=${channel}&parent=twitch-viewer.ru`;
-    twitchPlayer.style.display = 'block';
-
+    document.getElementById('twitchPlayer').src = `https://player.twitch.tv/?channel=${channel}&parent=twitch-viewer.ru`;
+    document.getElementById('twitchPlayer').style.display = 'block';
     document.getElementById('youtubePlayer').style.display = 'none';
 
-    // Проверяем онлайн/офлайн
-    checkStreamStatus(channel);
+    // Очистим старое сообщение
+    const offlineMessage = document.getElementById('offlineMessage');
+    offlineMessage.style.display = 'none';
+    offlineMessage.innerText = '';
+
+    // --- Debug: запрос в Twitch API ---
+    console.log(`Запрос в Twitch API для канала: ${channel}`);
+
+    fetch(`https://api.twitch.tv/helix/streams?user_login=${channel}`, {
+        method: 'GET',
+        headers: {
+            'Client-ID': clientId,
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(response => {
+        console.log('HTTP Status:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Ответ Twitch API:', data);
+
+        if (data.data && data.data.length > 0) {
+            console.log(`✅ Канал ${channel} — ОНЛАЙН`);
+            offlineMessage.style.display = 'none';
+        } else {
+            console.log(`❌ Канал ${channel} — ОФФЛАЙН (по данным API)`);
+            offlineMessage.style.display = 'block';
+            offlineMessage.innerText = `Канал ${channel} сейчас оффлайн.`;
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка при запросе к Twitch API:', error);
+        offlineMessage.style.display = 'block';
+        offlineMessage.innerText = `Ошибка получения статуса канала.`;
+    });
 }
 
-// === Показываем YouTube ===
 function showYoutube(url) {
     document.getElementById('youtubePlayer').src = url;
     document.getElementById('youtubePlayer').style.display = 'block';
-
     document.getElementById('twitchPlayer').style.display = 'none';
-    document.getElementById('offlineMessage').style.display = 'none';
-
     document.getElementById('channelName').innerText = 'YouTube';
+    document.getElementById('offlineMessage').style.display = 'none';
 }
 
-// === Категории ===
 function showCategory(category) {
     document.getElementById('moviesCategory').style.display = (category === 'movies') ? 'block' : 'none';
 }
 
-// === Переключатель темы ===
 function toggleTheme() {
     const body = document.body;
     if (body.style.backgroundColor === 'white') {
@@ -42,30 +66,4 @@ function toggleTheme() {
         body.style.backgroundColor = 'white';
         body.style.color = 'black';
     }
-}
-
-// === Проверка онлайн/офлайн ===
-function checkStreamStatus(channel) {
-    fetch(`https://api.twitch.tv/helix/streams?user_login=${channel}`, {
-        method: 'GET',
-        headers: {
-            'Client-ID': clientId,
-            'Authorization': `Bearer ${accessToken}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const offlineMessage = document.getElementById('offlineMessage');
-        if (data.data && data.data.length > 0) {
-            // Стрим идет
-            offlineMessage.style.display = 'none';
-        } else {
-            // Стрим оффлайн
-            offlineMessage.innerText = `Канал ${channel} сейчас оффлайн.`;
-            offlineMessage.style.display = 'block';
-        }
-    })
-    .catch(error => {
-        console.error('Ошибка проверки стрима:', error);
-    });
 }
