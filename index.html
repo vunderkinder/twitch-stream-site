@@ -1,86 +1,85 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vunderkinder Streams</title>
-    <style>
-        body {
-            background-color: #111;
-            color: #eee;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-
-        #twitchPlayer, #youtubePlayer {
-            width: 80%;
-            height: 500px;
-            margin: 20px auto;
-            display: none;
-        }
-
-        #offlineMessage {
-            color: red;
-            font-size: 18px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .button {
-            margin: 5px;
-            padding: 10px 20px;
-            background-color: #9147ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .button:hover {
-            background-color: #772ce8;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
-    <h1>🎮 Vunderkinder Streams</h1>
-
-    <!-- Кнопка авторизации -->
-    <a id="authButton" class="button" href="#">
-        Войти через Twitch
-    </a>
-
-    <h2>Канал: <span id="channelName">Не выбран</span></h2>
-
-    <!-- Видео плеер Twitch -->
-    <iframe id="twitchPlayer" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
-
-    <!-- Видео плеер YouTube -->
-    <iframe id="youtubePlayer" frameborder="0" allowfullscreen="true"></iframe>
-
-    <!-- Сообщение об оффлайне -->
-    <div id="offlineMessage">Канал сейчас оффлайн.</div>
-
-    <!-- Кнопки выбора стримера -->
-    <div>
-        <button class="button" onclick="changeTwitchChannel('shroud')">Shroud</button>
-        <button class="button" onclick="changeTwitchChannel('monsteer')">Monsteer</button>
-        <button class="button" onclick="changeTwitchChannel('chopperinho')">Chopperinho</button>
-        <!-- Добавь своих стримеров -->
+    <div class="header">
+        🎮 Vunderkinder Streams
     </div>
 
-    <script src="script.js"></script>
+    <div class="categories">
+        <button onclick="showCategory('games')">🎮 Игры</button>
+        <button onclick="showCategory('music')">🎵 Музыка</button>
+        <button onclick="showCategory('chat')">🔊 Чат</button>
+        <button onclick="showCategory('sports')">🏈 Спорт</button>
+        <button onclick="showCategory('movies')">🎬 Фильмы</button>
+    </div>
 
-    <script>
-        // Генерируем ссылку на авторизацию
-        const clientId = 'mkhsczpxroty6pz3gyr9tzzdd4xmj';
-        const redirectUri = encodeURIComponent('https://twitch-viewer.ru');
-        const scopes = encodeURIComponent('user:read:follows user:read:broadcast');
-        const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scopes}`;
+    <p>ТОП стримеры:</p>
+    <div class="streamers">
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08c7580ef4eb1768-300x300.png" onclick="changeTwitchChannel('shroud')" title="Shroud" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-54969fc74b44b823-300x300.png" onclick="changeTwitchChannel('monstercat')" title="Monstercat" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/549c70c7-27d3-411f-80b6-c318b21662cc-profile_image-300x300.png" onclick="changeTwitchChannel('esl_csgo')" title="ESL_CSGO" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" onclick="changeTwitchChannel('vunderkinder')" title="Vunderkinder" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/8dfb36d3-54a6-4bb6-9f89-228ac067f29b-profile_image-300x300.png" onclick="changeTwitchChannel('chopperinho')" title="Chopperinho" />
+    </div>
 
-        // Вставляем ссылку в кнопку
-        document.getElementById('authButton').href = authUrl;
-    </script>
+    <p>Канал: <span id="channelName">не выбран</span></p>
 
+    <!-- Twitch iframe player -->
+    <iframe
+        id="twitchPlayer"
+        width="100%"
+        height="500"
+        frameborder="0"
+        allowfullscreen="true"
+        scrolling="no"
+        style="display:none;"
+    ></iframe>
+
+    <!-- Offline message -->
+    <p id="offlineMessage" style="display:none; color: red; font-weight: bold; font-size: 18px; text-align: center; margin-top: 10px;"></p>
+
+    <!-- YouTube player -->
+    <iframe
+        id="youtubePlayer"
+        width="100%"
+        height="500"
+        frameborder="0"
+        allowfullscreen="true"
+        style="display:none;"
+    ></iframe>
+
+    <!-- Фильмы -->
+    <div id="moviesCategory" style="display: none;">
+        <p>🎬 Популярные фильмы:</p>
+        <button onclick="changeTwitchChannel('cineplex')">Кино центр</button>
+        <button onclick="changeTwitchChannel('retromovieart')">Ретро Фильмы</button>
+        <button onclick="showYoutube('https://www.youtube.com/embed/ue80QwXMRHg')">Трейлер YouTube</button>
+    </div>
+
+    <!-- Поддержать проект -->
+    <div style="margin-top: 20px; text-align: center;">
+        💰 <button onclick="alert('Спасибо за поддержку!')">Поддержать проект</button>
+    </div>
+
+    <!-- Реклама -->
+    <div style="margin-top: 10px; text-align: center;">
+        Реклама:
+        <br />
+        [ Сюда вставить код РСЯ когда будет готов ]
+    </div>
+
+    <!-- Переключатель темы -->
+    <div style="margin-top: 20px; text-align: center;">
+        🌟 <button onclick="toggleTheme()">Переключить тему</button>
+    </div>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
+
