@@ -3,41 +3,60 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vunderkinder Streams</title>
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
-    <h1>🎮 Vunderkinder Streams</h1>
+    <div class="header">
+        🎮 Vunderkinder Streams
+    </div>
 
     <div class="categories">
         <button onclick="showCategory('games')">🎮 Игры</button>
         <button onclick="showCategory('music')">🎵 Музыка</button>
-        <button onclick="showCategory('chat')">🗣 Чат</button>
-        <button onclick="showCategory('sports')">⚽️ Спорт</button>
+        <button onclick="showCategory('chat')">🔊 Чат</button>
+        <button onclick="showCategory('sports')">🏈 Спорт</button>
         <button onclick="showCategory('movies')">🎬 Фильмы</button>
     </div>
 
     <p>ТОП стримеры:</p>
-    <p>Канал: <span id="channelName">не выбран</span></p>
     <div class="streamers">
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08e7580f4e01b7d8-300x300.png" onclick="changeTwitchChannel('shroud')" title="Shroud" />
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-5496b9c74b4b4023-300x300.png" onclick="changeTwitchChannel('monstercat')" title="Monstercat" />
-        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/5a9cc7ba-72f3-41f1-8b06-bc31312e6ec2-profile_image-300x300.png" onclick="changeTwitchChannel('esl_csgo')" title="ESL_CSGO" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/shroud-profile_image-08c7580ef4eb1768-300x300.png" onclick="changeTwitchChannel('shroud')" title="Shroud" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/monstercat-profile_image-54969fc74b44b823-300x300.png" onclick="changeTwitchChannel('monstercat')" title="Monstercat" />
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/549c70c7-27d3-411f-80b6-c318b21662cc-profile_image-300x300.png" onclick="changeTwitchChannel('esl_csgo')" title="ESL_CSGO" />
         <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/vunderkinder-profile_image.png" onclick="changeTwitchChannel('vunderkinder')" title="Vunderkinder" />
     </div>
 
-    <!-- Twitch Плеер -->
-    <iframe id="twitchPlayer" style="width: 100%; height: 500px; display: none;" allowfullscreen></iframe>
+    <!-- ВОТ ЭТО НОВЫЙ БЛОК! -->
+    <p>Канал: <span id="channelName">не выбран</span></p>
 
-    <!-- Сообщение если канал оффлайн -->
-    <p id="offlineMessage" style="display: none; color: red; font-weight: bold; font-size: 18px; text-align: center; margin-top: 10px;"></p>
+    <!-- Twitch iframe player -->
+    <iframe
+        id="twitchPlayer"
+        width="100%"
+        height="500"
+        frameborder="0"
+        allowfullscreen="true"
+        scrolling="no"
+        style="display:none;"
+    ></iframe>
 
-    <!-- YouTube плеер -->
-    <iframe id="youtubePlayer" style="width: 100%; height: 500px; display: none;" allowfullscreen></iframe>
+    <!-- Offline message -->
+    <p id="offlineMessage" style="display:none; color: red; font-weight: bold;"></p>
+
+    <!-- Фильмы -->
+    <div id="moviesCategory" style="display: none;">
+        <p>🎬 Популярные фильмы:</p>
+        <button onclick="changeTwitchChannel('cineplex')">Кино центр</button>
+        <button onclick="changeTwitchChannel('retromovieart')">Ретро Фильмы</button>
+        <button onclick="showYoutube('https://www.youtube.com/embed/ue80QwXMRHg')">Трейлер YouTube</button>
+    </div>
+
+    <div style="margin-top: 20px;">
+        🌟 <button onclick="toggleTheme()">Переключить тему</button>
+    </div>
 
     <script src="js/script.js"></script>
-
 </body>
 </html>
